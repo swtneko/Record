@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Neko Record</string>
+
+    <string name="nav_live_stream">Live Stream</string>
+    <string name="nav_screen_record">Screen Record</string>
+    <string name="nav_tools">Tools</string>
+    <string name="nav_videos">Videos</string>
+
+    <string name="home_title">Live Stream</string>
+    <string name="home_banner_title">Multi-Platform</string>
+    <string name="home_banner_subtitle">Stream to your favorite platforms at once</string>
+    <string name="home_banner_cta">Start Now</string>
+
+    <string name="platform_youtube">YouTube</string>
+    <string name="platform_facebook">Facebook</string>
+    <string name="platform_twitch">Twitch</string>
+    <string name="platform_tiktok">TikTok</string>
+    <string name="platform_twitter">Twitter / X</string>
+    <string name="platform_rtmp">Custom RTMP</string>
+</resources>

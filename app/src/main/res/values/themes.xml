@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base manifest theme; actual UI theming lives in Compose (ui/theme). -->
+    <style name="Theme.NekoRecord" parent="android:Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">@color/neko_background</item>
+        <item name="android:navigationBarColor">@color/neko_background</item>
+        <item name="android:windowBackground">@color/neko_background</item>
+    </style>
+</resources>
