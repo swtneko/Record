@@ -1,0 +1,27 @@
+# Gradle
+.gradle/
+build/
+*/build/
+gradle-app.setting
+
+# Local configuration
+local.properties
+
+# IDE
+.idea/
+*.iml
+.DS_Store
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Wrapper distribution (not committed; CI installs Gradle directly)
+gradle/wrapper/gradle-wrapper.jar
+
+# Keystores — never commit signing material
+*.jks
+*.keystore
+keystore.properties
+
+# Logs
+*.log

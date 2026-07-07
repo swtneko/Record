@@ -1,0 +1,24 @@
+# Baseline Detekt config for Milestone 1.
+# Rules are intentionally close to defaults; will be tightened (max complexity,
+# forbidden-import for raw java.io usage in favor of the RTMP layer, etc.) as
+# the streaming engine milestones land.
+
+build:
+  maxIssues: 0
+
+style:
+  MagicNumber:
+    active: false # Compose dp/sp/alpha literals are pervasive and expected here.
+  ReturnCount:
+    active: true
+    max: 3
+
+complexity:
+  LongMethod:
+    active: true
+    threshold: 80
+  TooManyFunctions:
+    active: false
+
+comments:
+  active: false
