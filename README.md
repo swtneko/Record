@@ -5,8 +5,8 @@ built GitHub-first with small, reviewable commits and CI-verified milestones.
 
 Package: `com.neko.record` · Min SDK 29 (Android 10+) · Compile/Target SDK 34
 
-> **Status:** Milestone 1 — project scaffold + basic Live Stream UI.
-> See [Roadmap](#roadmap) below for what's next.
+> **Status:** Milestone 2 — MediaProjection + Screen Capture (true device
+> aspect ratio, no forced 9:16/16:9). See [Roadmap](#roadmap) below.
 
 ## Why GitHub-first, no local Android Studio required
 
@@ -58,9 +58,13 @@ app/
     ui/theme/                  # Color.kt, Type.kt, Theme.kt (Material 3)
     ui/navigation/              # Screen.kt (routes), NavGraph.kt (NavHost + bottom nav)
     ui/home/                    # HomeScreen.kt + HomeViewModel.kt (Live Stream tab)
+    ui/screenrecord/             # ScreenRecordScreen.kt + ScreenRecordViewModel.kt
     ui/components/              # PlatformCard.kt, BottomNavBar.kt
-    data/model/                  # Platform.kt (PlatformId, PlatformUiModel)
-  src/test/                      # JVM unit tests (HomeViewModelTest)
+    data/model/                  # Platform.kt, Resolution.kt (QualityTier, FpsOption)
+    data/repository/             # ScreenCaptureRepository.kt (service <-> UI state bridge)
+    domain/                      # ResolutionCalculator.kt, DeviceDisplayMetrics.kt
+    service/                     # ScreenCaptureService.kt, ScreenCaptureNotifications.kt
+  src/test/                      # JVM unit tests (HomeViewModelTest, ResolutionCalculatorTest)
   src/androidTest/                # Instrumentation smoke test
 .github/workflows/                # CI: build / test / lint+detekt
 detekt.yml                         # Static analysis rules
@@ -71,13 +75,37 @@ per the project spec. Milestone 1 only needs a ViewModel (no repository yet —
 the platform list is static); the `data/` and `domain/` layers grow a proper
 Repository once real network/RTMP state exists (Milestone 3 onward).
 
+### Milestone 2: how screen capture stays true to the device's real screen
+
+The spec requires the encoder to use the device's *exact* pixel dimensions —
+never a hard-coded 9:16 or 16:9 canvas, and never upscaled beyond what the
+screen actually has. This is implemented as:
+
+- `DeviceDisplayMetrics` reads the real physical resolution (e.g. `1080x2460`,
+  or a tablet's `1600x1200`, or a fold's unfolded size) via the modern
+  per-Activity `WindowMetrics` API (API 30+), falling back to the deprecated
+  `Display.getRealMetrics` path on API 29 (this project's minSdk).
+- `ResolutionCalculator` is a pure, fully unit-tested Kotlin function that
+  scales a quality tier (360p–4K) by the device's real short side, derives the
+  long side from the device's *actual* aspect ratio, and never flips or forces
+  a different ratio. See `ResolutionCalculatorTest` for concrete cases (20:9
+  phone, 4:3 tablet, landscape, odd-pixel devices, upscale prevention).
+- `ScreenCaptureService` is a foreground service (`foregroundServiceType="mediaProjection"`,
+  required by Android 14+) that creates a `VirtualDisplay` + `ImageReader` at
+  that computed resolution and reports frame counts via `ScreenCaptureRepository`,
+  a Hilt singleton the Compose UI observes as a `StateFlow`.
+- Encoding captured frames into an RTMP stream is intentionally **not** part of
+  this milestone — that's the RTMP Engine milestone's job. Milestone 2 proves
+  the capture pipeline delivers frames at the correct resolution; it doesn't
+  yet do anything with those frames beyond counting them.
+
 ## Roadmap
 
 Each milestone lands as its own set of small commits / PRs, and the repo stays
 buildable after every single commit:
 
-1. **Project init + basic UI** ← you are here
-2. MediaProjection + Screen Capture (true device aspect ratio, no forced 9:16/16:9)
+1. **Project init + basic UI** — done
+2. **MediaProjection + Screen Capture** ← you are here (true device aspect ratio, no forced 9:16/16:9; VirtualDisplay + ImageReader pipeline; foreground service with persistent notification)
 3. RTMP Engine (YouTube/Facebook/Twitch/TikTok/Twitter/Custom RTMP, login or stream key)
 4. Audio (mic / internal audio / both, AGC, noise suppression, echo cancellation)
 5. Float Ball (start/stop/settings/live status)

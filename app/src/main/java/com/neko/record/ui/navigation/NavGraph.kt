@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.compose.runtime.getValue
 import com.neko.record.ui.components.NekoBottomNavBar
 import com.neko.record.ui.home.HomeScreen
+import com.neko.record.ui.screenrecord.ScreenRecordScreen
 
 /**
  * Root scaffold: bottom nav + the four top-level tabs.
@@ -54,7 +55,7 @@ fun NekoRecordNavHost(navController: NavHostController = rememberNavController()
                 HomeScreen(onPlatformSelected = { /* wired in RTMP Engine milestone */ })
             }
             composable(Screen.ScreenRecord.route) {
-                PlaceholderTab(title = "Screen Record")
+                ScreenRecordScreen()
             }
             composable(Screen.Tools.route) {
                 PlaceholderTab(title = "Tools")

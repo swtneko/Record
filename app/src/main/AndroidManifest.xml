@@ -10,6 +10,17 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <!--
+        Milestone 2: screen capture via MediaProjection.
+        FOREGROUND_SERVICE_MEDIA_PROJECTION is required from Android 14 (API 34)
+        onward for any foreground service that uses MediaProjection.
+        POST_NOTIFICATIONS is required from Android 13 (API 33) to actually show
+        the persistent capture notification the foreground service depends on.
+    -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:name=".NekoRecordApp"
         android:allowBackup="true"
@@ -32,6 +43,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".service.ScreenCaptureService"
+            android:exported="false"
+            android:foregroundServiceType="mediaProjection" />
     </application>
 
 </manifest>

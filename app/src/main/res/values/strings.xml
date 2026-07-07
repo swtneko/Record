@@ -18,4 +18,18 @@
     <string name="platform_tiktok">TikTok</string>
     <string name="platform_twitter">Twitter / X</string>
     <string name="platform_rtmp">Custom RTMP</string>
+
+    <string name="notification_channel_capture">Screen capture</string>
+    <string name="notification_channel_capture_description">Persistent status while your screen is being captured</string>
+    <string name="notification_capture_title">Neko Record is capturing your screen</string>
+    <string name="notification_capture_content">Tap Stop to end screen capture</string>
+    <string name="notification_action_stop">Stop</string>
+
+    <string name="screen_record_title">Screen Record</string>
+    <string name="screen_record_true_resolution">True device resolution</string>
+    <string name="screen_record_quality">Quality</string>
+    <string name="screen_record_fps">FPS</string>
+    <string name="screen_record_start">Start</string>
+    <string name="screen_record_stop">Stop</string>
+    <string name="screen_record_frames_captured">Frames captured</string>
 </resources>
